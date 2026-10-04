@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS - Unified Gaming Intelligence</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-bg': '#0f1423', // Darker blue/black to match the PDF vibe
+                        'brand-card': '#1a2238', // Dark blue cards
+                        'brand-text-light': '#94a3b8', // Muted text color
+                        'brand-accent': '#00f0ff', // Neon blue accent
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #080b14; /* Darkest blue/black for the very top */
+            color: white;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .hero-section {
+            position: relative;
+            width: 100%;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at center, #1a2238 0%, #080b14 70%);
+            overflow: hidden;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        /* Simulating the dramatic lighting rays in the background */
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 180deg at 50% 50%, rgba(0, 240, 255, 0.05) 0deg, rgba(255, 0, 255, 0.05) 120deg, rgba(0, 255, 102, 0.05) 240deg, rgba(0, 240, 255, 0.05) 360deg);
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 900px;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, #00f0ff, #ffffff, #00f0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .hero-image-container {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 0 30px rgba(0, 255, 255, 0.4));
+        }
+
+        .hero-image-placeholder {
+            /* Simulating the 3D abstract object */
+            width: 100%;
+            height: 300px;
+            background: radial-gradient(circle at 30% 30%, #00f0ff 0%, #0055ff 50%, transparent 80%),
+                        radial-gradient(circle at 70% 70%, #9d00ff 0%, #3a0088 50%, transparent 80%);
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            animation: morph 8s ease-in-out infinite;
+            box-shadow: inset 20px 20px 50px rgba(255,255,255,0.2), inset -20px -20px 50px rgba(0,0,0,0.5);
+        }
+
+        @keyframes morph {
+            0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            34% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
+            67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            font-weight: 400;
+            color: #94a3b8;
+            max-width: 700px;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-subtitle span {
+            color: white;
+            font-weight: 500;
+        }
+
+        .hero-btn {
+            background: linear-gradient(90deg, #00f0ff, #9d00ff);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 9999px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 1rem;
+        }
+
+        .hero-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+        }
+
+        /* Fades out the main button when menu opens */
+        .hero-btn.hidden-btn {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px) scale(0.95);
+        }
+
+        /* Smooth scrolling for our new navigation links */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* --- New Floating Nav Morphing Styles --- */
+        .floating-nav {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem; /* Anchored to bottom right corner */
+            z-index: 100;
+            background: rgba(15, 20, 35, 0.6); /* Translucent glass */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            
+            /* Flex row-reverse pushes the toggle button to the right side */
+            display: flex;
+            align-items: center;
+            flex-direction: row-reverse;
+            
+            /* Starting hidden state */
+            max-width: 0px;
+            height: 60px;
+            opacity: 0;
+            pointer-events: none;
+            border-radius: 9999px;
+            overflow: hidden;
+            
+            /* Smooth width transition creates the "sliding" effect */
+            transition: max-width 0.6s cubic-bezier(0.22, 1, 0.36, 1), 
+                        opacity 0.4s ease, 
+                        border-radius 0.4s ease;
+        }
+
+        @keyframes pulse-soft {
+            0% { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 0 rgba(0, 240, 255, 0.4); }
+            70% { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 15px rgba(0, 240, 255, 0); }
+            100% { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 0 rgba(0, 240, 255, 0); }
+        }
+
+        /* State 1: The Ball (Collapsed on the side) */
+        .floating-nav.collapsed {
+            opacity: 1;
+            pointer-events: auto;
+            max-width: 60px; /* Shrinks to just fit the icon */
+            border-radius: 50%;
+            animation: pulse-soft 2.5s infinite; /* Subtle pulse to indicate it's clickable */
+        }
+
+        /* State 2: Expanded Menu (Full width) */
+        .floating-nav.expanded {
+            opacity: 1;
+            pointer-events: auto;
+            max-width: 700px; /* Expands to fit all text */
+            border-radius: 9999px;
+        }
+
+        /* The Menu Icon Button inside the bar */
+        .nav-toggle {
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 50%;
+            position: relative;
+            transition: background 0.3s ease;
+            color: #00f0ff;
+            z-index: 2;
+            background: rgba(15, 20, 35, 0.8); /* Solidify background slightly so links don't show behind it when scrolling */
+        }
+
+        .nav-toggle:hover {
+            background: rgba(0, 240, 255, 0.1);
+        }
+
+        .nav-toggle svg {
+            position: absolute;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .icon-close {
+            opacity: 0;
+            transform: rotate(-90deg) scale(0.5);
+        }
+
+        /* Icon Animation: Hamburger turns into X when Expanded */
+        .floating-nav.expanded .icon-hamburger {
+            opacity: 0;
+            transform: rotate(90deg) scale(0.5);
+        }
+        
+        .floating-nav.expanded .icon-close {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        /* Wrapper for links so they fade out before the bar shrinks */
+        .nav-links-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0 1rem 0 1.5rem;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+            
+            overflow-x: auto;
+            /* Hide scrollbar for a cleaner look */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* Internet Explorer 10+ */
+            flex-grow: 1; /* Allow it to take up remaining space */
+            mask-image: linear-gradient(to right, transparent, black 15px, black calc(100% - 15px), transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 15px, black calc(100% - 15px), transparent);
+        }
+
+        /* WebKit hide scrollbar */
+        .nav-links-wrapper::-webkit-scrollbar { 
+            display: none; 
+        }
+
+        .floating-nav.expanded .nav-links-wrapper {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+            transition-delay: 0.2s; /* Text fades in after bar expands */
+        }
+
+        .nav-label {
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-right: 0.5rem;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-link:hover {
+            background: rgba(0, 240, 255, 0.15);
+            color: #00f0ff;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 640px) {
+            .floating-nav.expanded {
+                max-width: calc(100vw - 4rem);
+            }
+            .nav-links-wrapper {
+                padding: 0 0.5rem 0 0.5rem;
+                gap: 0.25rem;
+                mask-image: linear-gradient(to right, transparent, black 10px, black calc(100% - 10px), transparent);
+                -webkit-mask-image: linear-gradient(to right, transparent, black 10px, black calc(100% - 10px), transparent);
+            }
+            .nav-link {
+                padding: 0.5rem 0.5rem;
+                font-size: 0.8rem;
+            }
+            .nav-label {
+                display: none; /* Hide label to save space on phones */
+            }
+            .nav-link:first-of-type {
+                margin-left: 10px;
+            }
+            .nav-link:last-of-type {
+                margin-right: 10px;
+            }
+        }
+
+        .content-section {
+            background-color: var(--tw-colors-brand-bg);
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .trust-header {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 4rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (min-width: 768px) {
+            .trust-header {
+                flex-direction: row;
+                align-items: flex-end;
+            }
+        }
+
+        .trust-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            line-height: 1.1;
+            color: #00f0ff; /* Neon cyan text for contrast */
+            max-width: 600px;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .trust-title {
+                margin-bottom: 0;
+            }
+        }
+
+        .trust-subtitle {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            max-width: 350px;
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto 6rem auto;
+        }
+
+        @media (min-width: 640px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .cards-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .feature-card {
+            background-color: var(--tw-colors-brand-card);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 1.5rem;
+            padding: 2.5rem 2rem;
+            color: white; 
+            display: flex;
+            flex-direction: column;
+            min-height: 350px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 240, 255, 0.3);
+        }
+
+        .card-number {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #00f0ff;
+            opacity: 0.8;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: auto; /* Pushes content below to the bottom */
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #94a3b8;
+            margin-top: 2rem;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto 4rem auto;
+        }
+
+        @media (min-width: 768px) {
+            .image-gallery {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .gallery-img-container {
+            border-radius: 1.5rem;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            background-color: #080b14;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Placeholder styles if images aren't found */
+            background-image: linear-gradient(45deg, #1a2238, #080b14); 
+            opacity: 0.8;
+        }
+
+        .bottom-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .bottom-section {
+                flex-direction: row;
+                align-items: flex-end;
+            }
+        }
+
+        .bottom-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            line-height: 1.1;
+            color: white;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        .bottom-title span {
+            color: #00ff66; /* Green accent from the PDF */
+        }
+
+        @media (min-width: 768px) {
+            .bottom-title {
+                margin-bottom: 0;
+            }
+        }
+
+        .bottom-desc-container {
+            max-width: 450px;
+        }
+
+        .bottom-desc {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .bottom-desc:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <section id="home" class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">NEXUS</h1>
+            
+            <div class="hero-image-container">
+                <!-- Using a CSS animated placeholder to mimic the 3D abstract object -->
+                <div class="hero-image-placeholder"></div>
+            </div>
+
+            <p class="hero-subtitle"><span>One Platform. Every Game. Every Device.</span><br>Reviews, benchmarks, compatibility, and commerce unified into one living ecosystem.</p>
+            <button id="main-explore-btn" class="hero-btn">Will it run?</button>
+        </div>
+    </section>
+
+    <section class="content-section">
+        
+        <div id="ecosystem" class="trust-header">
+            <h2 class="trust-title">The Unified<br>Ecosystem</h2>
+            <p class="trust-subtitle">Software insight, hardware reality, and purchase intent are no longer scattered on separate islands.</p>
+        </div>
+
+        <div class="cards-grid">
+            <!-- Card 01 -->
+            <div class="feature-card">
+                <div class="card-number">01</div>
+                <h3 class="card-title">Cross-Platform<br>Engine</h3>
+                <p class="card-desc">Every game review normalized in real time. We ingest expert critiques and user reviews to deliver one comparable score using AI sentiment weighting.</p>
+            </div>
+            
+            <!-- Card 02 -->
+            <div class="feature-card">
+                <div class="card-number">02</div>
+                <h3 class="card-title">Compatibility<br>Matrix</h3>
+                <p class="card-desc">Stop guessing. We match your specific hardware profile directly to game requirements to guarantee stable FPS and thermal thresholds.</p>
+            </div>
+
+            <!-- Card 03 -->
+            <div class="feature-card">
+                <div class="card-number">03</div>
+                <h3 class="card-title">Hardware<br>Deep Dive</h3>
+                <p class="card-desc">Uncover sustained frame rates, thermal throttling limits, and battery drain under load for PC, console, and mobile chipsets.</p>
+            </div>
+
+            <!-- Card 04 -->
+            <div class="feature-card">
+                <div class="card-number">04</div>
+                <h3 class="card-title">Community<br>Benchmarks</h3>
+                <p class="card-desc">Real gamers turn data into a moat. Explore thousands of validated player submissions comparing FPS vs. temperature across the globe.</p>
+            </div>
+        </div>
+
+        <div id="gallery" class="image-gallery">
+            <div class="gallery-img-container">
+                <!-- Using placeholder images that match the lighting vibe -->
+                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop" alt="Gamer analyzing benchmark data on multiple screens" class="gallery-img">
+            </div>
+            <div class="gallery-img-container">
+                <img src="https://images.unsplash.com/photo-1542751110-97427bbecf20?q=80&w=1984&auto=format&fit=crop" alt="Player checking mobile chipset thermal limits" class="gallery-img">
+            </div>
+        </div>
+
+        <div id="compatibility" class="bottom-section">
+            <h2 class="bottom-title">Your hardware.<br>Your targets.<br><span>Your games.</span></h2>
+            
+            <div class="bottom-desc-container">
+                <p class="bottom-desc">Input your exact system specs—from an 8-core CPU and 12GB GPU right down to your RAM—and set your performance targets (e.g., 1440p at 90+ FPS).</p>
+                <p class="bottom-desc">The Nexus matrix instantly filters playable games tailored specifically for your setup, backed by real community benchmark data and deep hardware insights.</p>
+            </div>
+        </div>
+
+        <div id="games" class="mt-32 max-w-[1400px] mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-light text-white mb-2">Verified <span class="text-[#00f0ff] font-semibold">Playable</span></h2>
+                    <p class="text-[#94a3b8] text-sm md:text-base">Live performance metrics based on your current hardware profile.</p>
+                </div>
+                <button class="px-6 py-2 rounded-full border border-[#00f0ff]/30 text-[#00f0ff] hover:bg-[#00f0ff]/10 transition-colors text-sm uppercase tracking-wider font-semibold">
+                    View Library
+                </button>
+            </div>
+
+            <!-- Games Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+                
+                <!-- Game Card 1 -->
+                <div class="group relative rounded-2xl overflow-hidden bg-[var(--tw-colors-brand-card)] border border-white/5 cursor-pointer transition-all duration-300 hover:border-[#00f0ff]/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.15)] hover:-translate-y-2">
+                    <div class="aspect-[3/4] relative overflow-hidden bg-[#080b14]">
+                        <img src="https://images.unsplash.com/photo-1605901309584-818e25960b8f?q=80&w=800&auto=format&fit=crop" alt="Neon City Overdrive cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#080b14] via-[#080b14]/40 to-transparent"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full p-4 md:p-5">
+                        <h4 class="font-semibold text-white text-base md:text-lg truncate mb-1">Neon City Overdrive</h4>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-[#00ff66] shadow-[0_0_8px_#00ff66] animate-pulse"></span>
+                                <span class="text-xs font-bold text-[#00ff66]">144 FPS</span>
+                            </div>
+                            <span class="text-[10px] md:text-xs text-[#94a3b8] font-mono">4K / Ultra</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Card 2 -->
+                <div class="group relative rounded-2xl overflow-hidden bg-[var(--tw-colors-brand-card)] border border-white/5 cursor-pointer transition-all duration-300 hover:border-[#00f0ff]/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.15)] hover:-translate-y-2">
+                    <div class="aspect-[3/4] relative overflow-hidden bg-[#080b14]">
+                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop" alt="Eldritch Realms cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#080b14] via-[#080b14]/40 to-transparent"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full p-4 md:p-5">
+                        <h4 class="font-semibold text-white text-base md:text-lg truncate mb-1">Eldritch Realms</h4>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-[#00ff66] shadow-[0_0_8px_#00ff66] animate-pulse"></span>
+                                <span class="text-xs font-bold text-[#00ff66]">60 FPS</span>
+                            </div>
+                            <span class="text-[10px] md:text-xs text-[#94a3b8] font-mono">1440p / High</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Card 3 -->
+                <div class="group relative rounded-2xl overflow-hidden bg-[var(--tw-colors-brand-card)] border border-white/5 cursor-pointer transition-all duration-300 hover:border-[#00f0ff]/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.15)] hover:-translate-y-2">
+                    <div class="aspect-[3/4] relative overflow-hidden bg-[#080b14]">
+                        <img src="https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=800&auto=format&fit=crop" alt="Stellar Frontiers cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#080b14] via-[#080b14]/40 to-transparent"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full p-4 md:p-5">
+                        <h4 class="font-semibold text-white text-base md:text-lg truncate mb-1">Stellar Frontiers</h4>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-[#00ff66] shadow-[0_0_8px_#00ff66] animate-pulse"></span>
+                                <span class="text-xs font-bold text-[#00ff66]">120 FPS</span>
+                            </div>
+                            <span class="text-[10px] md:text-xs text-[#94a3b8] font-mono">1440p / Ultra</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Card 4 (Warning State) -->
+                <div class="group relative rounded-2xl overflow-hidden bg-[var(--tw-colors-brand-card)] border border-white/5 cursor-pointer transition-all duration-300 hover:border-[#ff9d00]/50 hover:shadow-[0_0_30px_rgba(255,157,0,0.15)] hover:-translate-y-2">
+                    <div class="aspect-[3/4] relative overflow-hidden bg-[#080b14]">
+                        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800&auto=format&fit=crop" alt="Apex Velocity cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 grayscale group-hover:grayscale-0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#080b14] via-[#080b14]/50 to-transparent"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full p-4 md:p-5">
+                        <h4 class="font-semibold text-white text-base md:text-lg truncate mb-1">Apex Velocity</h4>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-[#ff9d00] shadow-[0_0_8px_#ff9d00] animate-pulse"></span>
+                                <span class="text-xs font-bold text-[#ff9d00]">45 FPS</span>
+                            </div>
+                            <span class="text-[10px] md:text-xs text-[#94a3b8] font-mono">4K / Max</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Card 5 -->
+                <div class="group relative rounded-2xl overflow-hidden bg-[var(--tw-colors-brand-card)] border border-white/5 cursor-pointer transition-all duration-300 hover:border-[#00f0ff]/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.15)] hover:-translate-y-2 hidden md:block">
+                    <div class="aspect-[3/4] relative overflow-hidden bg-[#080b14]">
+                        <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop" alt="Operation: Zero cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#080b14] via-[#080b14]/40 to-transparent"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full p-4 md:p-5">
+                        <h4 class="font-semibold text-white text-base md:text-lg truncate mb-1">Operation: Zero</h4>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-[#00ff66] shadow-[0_0_8px_#00ff66] animate-pulse"></span>
+                                <span class="text-xs font-bold text-[#00ff66]">240 FPS</span>
+                            </div>
+                            <span class="text-[10px] md:text-xs text-[#94a3b8] font-mono">1080p / Low</span>
+                        </div>
+                    </div>
+                </div>
+
+<comment-tag id="1">            </div>
+        </div></comment-tag id="1" text="            </div>
+
+            <!-- View Full Library Button -->
+            <div class='mt-12 flex justify-center w-full'>
+                <button class='px-8 py-3 bg-[var(--tw-colors-brand-card)] border border-white/5 rounded-full text-white font-semibold hover:border-[#00f0ff]/50 hover:text-[#00f0ff] transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,240,255,0.15)] flex items-center gap-2 group'>
+                    View Full Library
+                    <svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='group-hover:translate-x-1 transition-transform'><line x1='5' y1='12' x2='19' y2='12'></line><polyline points='12 5 19 12 12 19'></polyline></svg>
+                </button>
+            </div>
+        </div>" type="suggestion">
+
+    </section>
+
+    <!-- Updated morphing navigation structure -->
+    <div id="floating-nav" class="floating-nav">
+        <!-- The interactive toggle button -->
+        <div id="nav-toggle" class="nav-toggle">
+            <!-- Hamburger Icon (Shows when collapsed) -->
+            <svg class="icon-hamburger" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
+            <!-- Close 'X' Icon (Shows when expanded) -->
+            <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </div>
+        
+        <!-- The actual text links -->
+        <div class="nav-links-wrapper">
+            <span class="nav-label">Explore Nexus:</span>
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#ecosystem" class="nav-link">Ecosystem</a>
+            <a href="#gallery" class="nav-link">Data</a>
+            <a href="#compatibility" class="nav-link">Compatibility</a>
+            <a href="#games" class="nav-link">Games</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const exploreBtn = document.getElementById('main-explore-btn');
+            const floatingNav = document.getElementById('floating-nav');
+            const navToggle = document.getElementById('nav-toggle');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const ecosystemSection = document.getElementById('ecosystem');
+
+            // 1. Initial click: Fades center button, extracts the full menu
+            exploreBtn.addEventListener('click', () => {
+                exploreBtn.classList.add('hidden-btn'); 
+                floatingNav.classList.remove('collapsed');
+                floatingNav.classList.add('expanded'); 
+            });
+
+            // 2. Toggling the menu open/closed using the ball
+            navToggle.addEventListener('click', () => {
+                if (floatingNav.classList.contains('expanded')) {
+                    floatingNav.classList.remove('expanded');
+                    floatingNav.classList.add('collapsed');
+                } else {
+                    floatingNav.classList.remove('collapsed');
+                    floatingNav.classList.add('expanded');
+                }
+            });
+
+            // 3. Shrinking left-to-right into a ball when a link is clicked
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    floatingNav.classList.remove('expanded');
+                    floatingNav.classList.add('collapsed');
+                });
+            });
+
+            // 4. Auto-expand menu when scrolling to the Ecosystem section
+            const observerOptions = {
+                root: null, // Use the viewport as the root
+                rootMargin: '0px',
+                threshold: 0.5 // Trigger when 50% of the section is visible
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Expand the menu
+                        floatingNav.classList.remove('collapsed');
+                        floatingNav.classList.add('expanded');
+                        // Optional: Fade out the main explore button if it's still visible
+                        exploreBtn.classList.add('hidden-btn');
+                        
+                        // Stop observing once triggered (if you only want it to happen once)
+                        // observer.unobserve(entry.target); 
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+            
+            // Start observing the ecosystem section
+            if (ecosystemSection) {
+                observer.observe(ecosystemSection);
+            }
+        });
+    </script>
+</body>
+</html>
