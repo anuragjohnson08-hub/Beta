@@ -3,692 +3,288 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS - Unified Gaming Intelligence</title>
+    <title>Nexus - Unified Gaming Platform</title>
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter font for the modern, clean aesthetic seen in the image -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'brand-bg': '#0f1423', // Darker blue/black to match the PDF vibe
-                        'brand-card': '#1a2238', // Dark blue cards
-                        'brand-text-light': '#94a3b8', // Muted text color
-                        'brand-accent': '#00f0ff', // Neon blue accent
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            /* Very dark, almost black, midnight blue background from the image */
+            --bg-color: #050814; 
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: var(--bg-color);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            color: white;
+            background-image: 
+                radial-gradient(circle at 50% 30%, rgba(30, 100, 160, 0.25) 0%, transparent 60%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 80px 80px, 80px 80px;
+            background-position: center, center, center;
+        }
+
+        /* Container for perfect centering */
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        /* 
+           Cinematic Rise Animation for the main title
+        */
+        @keyframes cinematicRise {
+            0% {
+                transform: translateY(10vh);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
             }
         }
-    </script>
-    
-    <style>
-      :root{
-        --bg:#03050a;
-        --panel:#090d15;
-        --panel2:#0d121c;
-        --cyan:#66eaff;
-        --blue:#178bff;
-        --violet:#8b5cff;
-        --green:#61ffb0;
-        --muted:#8d9aae;
-        --line:rgba(255,255,255,.09);
-      }
 
-      *{box-sizing:border-box}
-      html{scroll-behavior:smooth}
-      body{
-        margin:0;
-        overflow-x:hidden;
-        color:#fff;
-        background:
-          radial-gradient(circle at 50% -15%,rgba(43,116,255,.14),transparent 35%),
-          radial-gradient(circle at 90% 40%,rgba(102,234,255,.06),transparent 30%),
-          var(--bg);
-        font-family:'Inter',sans-serif;
-      }
-      body::before{
-        content:"";
-        position:fixed; inset:0; pointer-events:none; z-index:999;
-        background-image:linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),
-                         linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
-        background-size:70px 70px;
-        mask-image:linear-gradient(to bottom,black,transparent 85%);
-      }
+        .main-title {
+            /* 
+               The title in the image has a specific gradient:
+               White -> Light Blue (cyan-ish) -> Soft Purple/Pink
+            */
+            background: linear-gradient(to right, 
+                #ffffff 0%, 
+                #ffffff 38%, 
+                #00e5ff 50%, 
+                #ffffff 62%, 
+                #ffffff 75%,
+                #e0c8ff 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            
+            font-size: clamp(4rem, 15vw, 12rem);
+            font-weight: 400; /* The font in the image is somewhat thin/regular, not extra bold */
+            letter-spacing: 0.15em; /* Very wide tracking */
+            line-height: 1;
+            margin-bottom: 2rem;
 
-      .hero-section{
-        position:relative; min-height:100vh; width:100%; overflow:hidden;
-        display:flex; flex-direction:column; align-items:center; justify-content:center;
-        padding:7rem 1.5rem 5rem; text-align:center;
-        isolation:isolate;
-        background:
-          radial-gradient(ellipse at 50% 43%,rgba(28,67,112,.24),transparent 38%),
-          radial-gradient(ellipse at 50% 75%,rgba(0,238,255,.06),transparent 42%);
-      }
-      .hero-section::before{
-        content:""; position:absolute; inset:-35%;
-        background:conic-gradient(from 0deg,transparent 0 15%,rgba(79,180,255,.055) 18%,transparent 25% 42%,rgba(146,87,255,.05) 46%,transparent 55% 75%,rgba(0,240,255,.04) 80%,transparent 86%);
-        animation:ambientSpin 32s linear infinite;
-        z-index:-2;
-      }
-      .hero-section::after{
-        content:""; position:absolute; width:60vw; height:60vw; max-width:850px; max-height:850px;
-        border-radius:50%;
-        background:radial-gradient(circle,rgba(30,152,255,.09),transparent 62%);
-        filter:blur(12px); z-index:-1; animation:breathe 6s ease-in-out infinite;
-      }
-      @keyframes ambientSpin{to{transform:rotate(360deg)}}
-      @keyframes breathe{0%,100%{transform:scale(.92);opacity:.55}50%{transform:scale(1.06);opacity:1}}
-
-      .hero-content{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;max-width:1050px}
-      .hero-title{
-        font-size:clamp(3.5rem,9vw,7.5rem); font-weight:300; letter-spacing:.12em;
-        line-height:1; margin:0 0 1.8rem; text-transform:uppercase;
-        background:linear-gradient(100deg,#dffaff 5%,#fff 32%,#62eaff 52%,#fff 72%,#bba9ff 95%);
-        -webkit-background-clip:text; background-clip:text; color:transparent;
-        text-shadow:0 0 55px rgba(80,220,255,.12);
-        animation:titleFloat 5s ease-in-out infinite;
-      }
-      @keyframes titleFloat{50%{transform:translateY(-5px);filter:brightness(1.08)}}
-
-      /* Large tilted RTX-style GPU background across the whole site */
-      .site-gpu-background{
-        position:fixed;
-        z-index:0;
-        pointer-events:none;
-        inset:0;
-        overflow:hidden;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        opacity:.30;
-        perspective:1400px;
-      }
-      .site-gpu-background::before{
-        content:"";
-        position:absolute;
-        width:100vw;
-        height:100vh;
-        background:
-          radial-gradient(circle at 50% 48%,rgba(40,170,255,.11),transparent 34%),
-          radial-gradient(circle at 25% 70%,rgba(125,75,255,.08),transparent 28%),
-          radial-gradient(circle at 80% 25%,rgba(0,230,255,.06),transparent 25%);
-        filter:blur(10px);
-      }
-      .site-gpu-background .hero-gpu{
-        position:absolute;
-        width:min(1250px,115vw);
-        height:min(590px,58vw);
-        margin:0;
-        left:50%;
-        top:50%;
-        transform:translate(-50%,-50%) rotate(-9deg) scale(1.18);
-        opacity:.78;
-        filter:blur(.15px) drop-shadow(0 50px 90px rgba(0,0,0,.85));
-        animation:backgroundGPUFloat 12s ease-in-out infinite;
-      }
-      @keyframes backgroundGPUFloat{
-        0%,100%{transform:translate(-50%,-50%) rotate(-9deg) scale(1.18)}
-        50%{transform:translate(-50%,-52%) rotate(-6deg) scale(1.20)}
-      }
-      .site-gpu-background .gpu-card{
-        width:88%;
-        height:72%;
-      }
-      .site-gpu-background .fan-blades{
-        animation-duration:10s !important;
-      }
-      .site-gpu-background .fan-two .fan-blades{
-        animation-duration:12s !important;
-      }
-      .site-gpu-background .fan-three .fan-blades{
-        animation-duration:9.5s !important;
-      }
-      .site-gpu-background .gpu-aura{
-        animation-duration:9s;
-        opacity:.7;
-      }
-      /* Keep every real UI layer above the GPU */
-      .hero-content,
-      .content-section,
-      .floating-nav{
-        position:relative;
-        z-index:10;
-      }
-      .content-section{
-        background:
-          linear-gradient(180deg,rgba(3,5,10,.48),rgba(5,8,14,.84) 18%,rgba(5,8,14,.88) 82%,rgba(3,5,10,.55));
-      }
-
-      /* RTX-5090-inspired animated cooling assembly */
-      .hero-gpu{
-        position:relative; width:min(850px,94vw); height:clamp(280px,36vw,390px);
-        margin:0 auto 1.8rem; perspective:1000px;
-        filter:drop-shadow(0 35px 55px rgba(0,0,0,.75));
-      }
-      .gpu-aura{
-        position:absolute; inset:15% 8%; border-radius:50%;
-        background:radial-gradient(circle,rgba(39,183,255,.23),rgba(87,50,255,.1) 35%,transparent 68%);
-        filter:blur(35px); animation:gpuAura 5s ease-in-out infinite;
-      }
-      @keyframes gpuAura{50%{transform:scale(1.1);opacity:.75}}
-      .gpu-card{
-        position:absolute; left:50%; top:50%; width:86%; height:76%;
-        transform:translate(-50%,-50%) rotateX(calc(7deg + var(--py,0deg))) rotateY(calc(-8deg + var(--px,0deg)));
-        border-radius:28px; overflow:hidden;
-        background:
-          linear-gradient(135deg,rgba(255,255,255,.08),transparent 17%),
-          linear-gradient(110deg,#070a0f,#151b25 46%,#07090d);
-        border:1px solid rgba(255,255,255,.16);
-        box-shadow:
-          inset 0 1px 0 rgba(255,255,255,.14),
-          inset 0 -25px 60px rgba(0,0,0,.55),
-          0 25px 70px rgba(0,0,0,.65),
-          0 0 45px rgba(37,173,255,.1);
-        transform-style:preserve-3d;
-        animation:gpuFloat 7s ease-in-out infinite;
-      }
-      @keyframes gpuFloat{
-        0%,100%{transform:translate(-50%,-50%) rotateX(7deg) rotateY(-8deg) translateY(0)}
-        50%{transform:translate(-50%,-50%) rotateX(5deg) rotateY(-4deg) translateY(-8px)}
-      }
-      .gpu-card::before{
-        content:"";position:absolute;inset:0;
-        background:linear-gradient(105deg,transparent 20%,rgba(255,255,255,.12) 33%,transparent 43%);
-        transform:translateX(-110%); animation:metalSweep 6s ease-in-out infinite;
-        z-index:5;
-      }
-      @keyframes metalSweep{0%,55%{transform:translateX(-110%)}75%,100%{transform:translateX(110%)}}
-      .gpu-edge{position:absolute;top:0;bottom:0;width:12px;opacity:.8;filter:blur(1px)}
-      .gpu-edge-a{left:0;background:linear-gradient(#31e8ff,#126dff,#8b5cff)}
-      .gpu-edge-b{right:0;background:linear-gradient(#8b5cff,#126dff,#31e8ff)}
-      .gpu-brand{
-        position:absolute;left:28px;top:22px;z-index:8;font-size:11px;letter-spacing:.25em;
-        color:rgba(255,255,255,.62);font-weight:700
-      }
-      .gpu-brand span{color:var(--cyan);margin-left:5px}
-      .fan{
-        position:absolute; top:50%; width:25%; aspect-ratio:1; border-radius:50%;
-        transform:translateY(-50%);
-        background:
-          radial-gradient(circle at 50% 50%,#090b10 0 9%,transparent 10%),
-          radial-gradient(circle,#303845 0 46%,#090c11 47% 52%,#465160 53% 55%,#080b10 56% 100%);
-        box-shadow:inset 0 0 22px rgba(255,255,255,.08),0 0 25px rgba(0,0,0,.65);
-        border:1px solid rgba(255,255,255,.13);
-      }
-      .fan-one{left:7%}.fan-two{left:37.5%}.fan-three{right:7%}
-      .fan::before{
-        content:"";position:absolute;inset:5%;border-radius:50%;
-        border:2px solid rgba(95,225,255,.18);
-        box-shadow:0 0 18px rgba(46,194,255,.12);
-      }
-      .fan-ring{position:absolute;inset:11%;border-radius:50%;border:2px solid rgba(255,255,255,.06)}
-      .fan-blades{
-        position:absolute;inset:18%;border-radius:50%;
-        background:conic-gradient(from 8deg,
-          transparent 0 7%,#252c36 8% 21%,transparent 22% 37%,
-          #252c36 38% 51%,transparent 52% 67%,#252c36 68% 81%,transparent 82% 100%);
-        filter:drop-shadow(0 3px 3px rgba(0,0,0,.65));
-        animation:fanSpin 5.8s linear infinite;
-      }
-      .fan-two .fan-blades{animation-duration:6.6s;animation-direction:reverse}
-      .fan-three .fan-blades{animation-duration:5.4s}
-      @keyframes fanSpin{to{transform:rotate(360deg)}}
-      .fan-hub{
-        position:absolute;left:50%;top:50%;width:23%;aspect-ratio:1;transform:translate(-50%,-50%);
-        border-radius:50%;display:grid;place-items:center;
-        background:radial-gradient(circle at 35% 30%,#384351,#0a0d12 70%);
-        border:1px solid rgba(255,255,255,.2); box-shadow:0 2px 10px #000;
-        z-index:4
-      }
-      .fan-hub span{font-size:8px;font-weight:800;letter-spacing:.12em;color:#c9f7ff}
-      .gpu-reflection{
-        position:absolute;inset:0;background:linear-gradient(120deg,transparent 38%,rgba(102,234,255,.06) 48%,transparent 58%);
-        pointer-events:none
-      }
-      .gpu-shadow{
-        position:absolute;bottom:2%;left:12%;right:12%;height:18px;border-radius:50%;
-        background:#000;filter:blur(18px);opacity:.8
-      }
-
-      .hero-content > .hero-gpu{display:none}
-      .hero-subtitle{
-        font-size:clamp(1rem,2vw,1.18rem); font-weight:400;color:var(--muted);
-        max-width:700px;margin:0 auto 1.4rem;line-height:1.7
-      }
-      .hero-subtitle span{color:#fff;font-weight:600}
-      .hero-btn{
-        position:relative;overflow:hidden;background:linear-gradient(100deg,#0fc8ff,#526dff,#a14dff);
-        color:white;border:1px solid rgba(255,255,255,.2);padding:1rem 2.6rem;border-radius:9999px;
-        font-size:1rem;font-weight:700;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;
-        margin-top:.6rem;transition:.35s cubic-bezier(.22,1,.36,1);
-        box-shadow:0 0 30px rgba(39,185,255,.2),inset 0 1px 0 rgba(255,255,255,.35)
-      }
-      .hero-btn::after{content:"";position:absolute;inset:-40%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transform:translateX(-100%) rotate(15deg);transition:.8s}
-      .hero-btn:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 12px 40px rgba(32,188,255,.28)}
-      .hero-btn:hover::after{transform:translateX(100%) rotate(15deg)}
-      .hero-btn.hidden-btn{opacity:0;pointer-events:none;transform:translateY(20px) scale(.95)}
-
-      .content-section{
-        position:relative;padding:8rem 2rem;background:
-          linear-gradient(180deg,rgba(4,7,12,.2),#05080e 15%,#05080e 85%,rgba(3,5,10,.2));
-      }
-      .content-section::before{
-        content:"";position:absolute;top:0;left:50%;width:1px;height:180px;
-        background:linear-gradient(transparent,rgba(91,223,255,.55),transparent);opacity:.6
-      }
-      .trust-header,.bottom-section,.cards-grid,.image-gallery,#games{
-        max-width:1400px;margin-left:auto;margin-right:auto
-      }
-      .trust-header{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;margin-bottom:4rem}
-      .trust-title,.bottom-title{
-        font-size:clamp(2.6rem,5vw,4.3rem);font-weight:300;line-height:1.05
-      }
-      .trust-title{color:#bfefff}
-      .trust-subtitle{font-size:1.05rem;color:var(--muted);max-width:390px;line-height:1.7}
-      .cards-grid{display:grid;grid-template-columns:repeat(1,1fr);gap:1.25rem;margin-bottom:6rem}
-      .feature-card{
-        position:relative;overflow:hidden;min-height:350px;padding:2.3rem 2rem;
-        background:linear-gradient(145deg,rgba(18,25,37,.92),rgba(6,9,14,.92));
-        border:1px solid var(--line);border-radius:1.5rem;color:white;
-        transition:transform .5s cubic-bezier(.22,1,.36,1),border-color .4s,box-shadow .5s;
-        transform-style:preserve-3d
-      }
-      .feature-card::before{
-        content:"";position:absolute;width:180px;height:180px;right:-80px;top:-90px;
-        background:radial-gradient(circle,rgba(65,214,255,.14),transparent 68%);transition:.5s
-      }
-      .feature-card:hover{transform:translateY(-10px) rotateX(2deg);border-color:rgba(102,234,255,.35);box-shadow:0 25px 60px rgba(0,0,0,.35),0 0 35px rgba(0,196,255,.07)}
-      .feature-card:hover::before{transform:scale(1.5)}
-      .card-number{font-size:1.15rem;font-weight:700;color:var(--cyan);letter-spacing:.12em}
-      .card-title{font-size:1.5rem;font-weight:400;line-height:1.2;margin:2rem 0 auto}
-      .card-desc{font-size:.95rem;line-height:1.7;color:var(--muted);margin-top:2rem}
-      .image-gallery{display:grid;grid-template-columns:1fr;gap:1.5rem;margin-bottom:5rem}
-      .gallery-img-container{position:relative;border-radius:1.5rem;overflow:hidden;aspect-ratio:16/9;background:#080b14;border:1px solid var(--line)}
-      .gallery-img{width:100%;height:100%;object-fit:cover;opacity:.72;transition:transform 1s cubic-bezier(.22,1,.36,1),filter 1s}
-      .gallery-img-container:hover .gallery-img{transform:scale(1.055);filter:saturate(1.2) contrast(1.08)}
-      .gallery-img-container::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(49,222,255,.08),transparent 45%,rgba(132,76,255,.08));pointer-events:none}
-      .bottom-section{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:2rem}
-      .bottom-title{color:#fff;margin:0}
-      .bottom-title span{color:var(--green);text-shadow:0 0 25px rgba(97,255,176,.18)}
-      .bottom-desc-container{max-width:450px}.bottom-desc{font-size:.95rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem}
-
-      /* Scroll reveal */
-      .reveal{opacity:0;transform:translateY(35px);transition:opacity .8s ease,transform .8s cubic-bezier(.22,1,.36,1)}
-      .reveal.visible{opacity:1;transform:none}
-      .cards-grid .feature-card:nth-child(2){transition-delay:.08s}.cards-grid .feature-card:nth-child(3){transition-delay:.16s}.cards-grid .feature-card:nth-child(4){transition-delay:.24s}
-
-      .floating-nav{
-        position:fixed;bottom:1.6rem;right:1.6rem;z-index:100;display:flex;flex-direction:row-reverse;
-        align-items:center;height:62px;max-width:0;opacity:0;pointer-events:none;overflow:hidden;
-        border-radius:999px;background:rgba(8,12,20,.66);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
-        border:1px solid rgba(102,234,255,.18);box-shadow:0 18px 45px rgba(0,0,0,.5);
-        transition:max-width .65s cubic-bezier(.22,1,.36,1),opacity .35s,border-radius .4s
-      }
-      .floating-nav.collapsed{opacity:1;pointer-events:auto;max-width:62px;border-radius:50%;animation:pulse-soft 3s infinite}
-      .floating-nav.expanded{opacity:1;pointer-events:auto;max-width:720px}
-      @keyframes pulse-soft{0%,100%{box-shadow:0 18px 45px rgba(0,0,0,.5),0 0 0 0 rgba(80,220,255,.18)}50%{box-shadow:0 18px 45px rgba(0,0,0,.5),0 0 0 10px rgba(80,220,255,0)}}
-      .nav-toggle{width:62px;height:62px;min-width:62px;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:50%;position:relative;color:var(--cyan);z-index:2;background:rgba(8,12,20,.86)}
-      .nav-toggle svg{position:absolute;transition:.4s cubic-bezier(.22,1,.36,1)}
-      .icon-close{opacity:0;transform:rotate(-90deg) scale(.5)}
-      .floating-nav.expanded .icon-hamburger{opacity:0;transform:rotate(90deg) scale(.5)}
-      .floating-nav.expanded .icon-close{opacity:1;transform:rotate(0) scale(1)}
-      .nav-links-wrapper{display:flex;align-items:center;gap:.45rem;padding:0 1rem 0 1.4rem;white-space:nowrap;opacity:0;transform:translateX(20px);transition:.3s;pointer-events:none;overflow-x:auto;scrollbar-width:none}
-      .nav-links-wrapper::-webkit-scrollbar{display:none}
-      .floating-nav.expanded .nav-links-wrapper{opacity:1;transform:none;pointer-events:auto;transition-delay:.2s}
-      .nav-label{color:#8391a4;font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;margin-right:.3rem}
-      .nav-link{color:#fff;text-decoration:none;padding:.55rem .9rem;border-radius:999px;font-size:.85rem;transition:.3s;background:rgba(255,255,255,.045)}
-      .nav-link:hover{background:rgba(102,234,255,.1);color:var(--cyan);box-shadow:0 0 20px rgba(102,234,255,.08)}
-
-      @media(min-width:640px){.cards-grid{grid-template-columns:repeat(2,1fr)}}
-      @media(min-width:768px){
-        .trust-header{flex-direction:row;align-items:flex-end}
-        .image-gallery{grid-template-columns:1fr 1fr}
-        .bottom-section{flex-direction:row;align-items:flex-end}
-      }
-      @media(min-width:1024px){.cards-grid{grid-template-columns:repeat(4,1fr)}}
-      @media(max-width:640px){
-        .site-gpu-background{opacity:.22}
-        .site-gpu-background .hero-gpu{
-          width:145vw;
-          height:70vw;
-          transform:translate(-50%,-50%) rotate(-10deg) scale(1.22);
+            animation: cinematicRise 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            will-change: transform, opacity;
         }
 
-        .hero-section{padding-top:5rem}
-        .hero-gpu{height:250px}
-        .gpu-card{width:94%;height:68%;border-radius:20px}
-        .fan{width:26%}.gpu-brand{left:18px;top:15px}
-        .floating-nav.expanded{max-width:calc(100vw - 2.2rem);right:1.1rem}
-        .nav-links-wrapper{padding:0 .5rem}.nav-label{display:none}
-        .nav-link{padding:.5rem .6rem;font-size:.76rem}
-      }
-      @media(prefers-reduced-motion:reduce){
-        .site-gpu-background .hero-gpu,
-        .site-gpu-background .fan-blades{
-          animation:none!important;
+        .subtitle-bold {
+            font-size: clamp(1.2rem, 3vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            
+            /* Simple fade in slightly delayed after the main title */
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1s forwards;
         }
 
-        *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}
-      }
+        .description-text {
+            font-size: clamp(1rem, 2vw, 1.8rem);
+            font-weight: 400;
+            color: #9ca3af; /* A muted grayish-blue color */
+            max-width: 800px;
+            line-height: 1.6;
+            
+            /* Simple fade in slightly delayed after the subtitle */
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Specific fade in for the ticker to keep it centered */
+        @keyframes fadeInTicker {
+            from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        .search-container {
+            margin-top: 3rem;
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            /* Fade in after the description text */
+            opacity: 0;
+            animation: fadeIn 1s ease-out 2s forwards;
+            z-index: 10;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 1.25rem 1.5rem 1.25rem 3.5rem;
+            border-radius: 9999px;
+            /* Frosted glass effect */
+            background: rgba(255, 255, 255, 0.15); 
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            color: rgba(255, 255, 255, 0.9);
+            pointer-events: none; /* Let clicks pass through to input */
+        }
+
+        .ticker-container {
+            position: fixed;
+            bottom: 4rem; /* Positioned near the bottom, similar to the image */
+            left: 50%;
+            /* Removed initial transform as it's handled by animation now */
+            width: 90%;
+            max-width: 800px;
+            height: 40px;
+            border-radius: 20px;
+            
+            /* Creating the glowing effect seen in the reference */
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.1), 
+                        inset 0 0 10px rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            
+            /* Fade in after everything else, using the custom animation */
+            opacity: 0;
+            animation: fadeInTicker 1s ease-out 2.5s forwards;
+            z-index: 20;
+        }
+
+        /* The actual scrolling text track */
+        .ticker-track {
+            display: flex;
+            width: max-content;
+            /* Scroll left to right as requested. Speed increased to 15s. */
+            animation: scrollTickerRight 15s linear infinite;
+        }
+
+        .ticker-group {
+            display: flex;
+            white-space: nowrap;
+        }
+
+        .ticker-text {
+            padding: 0 2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Animation moving from left to right (negative translation to positive) */
+        @keyframes scrollTickerRight {
+            0% {
+                transform: translateX(-50%);
+            }
+            100% {
+                transform: translateX(0%);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .main-title, .subtitle-bold, .description-text, .search-container, .ticker-container {
+                animation: none;
+                transform: translateY(0) translateX(0); /* Reset translates if reduced motion */
+                opacity: 1;
+            }
+            /* Center the ticker if it can't animate */
+            .ticker-container {
+                transform: translateX(-50%);
+            }
+            .ticker-track {
+                animation: none;
+                justify-content: center;
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-
-    <section id="home" class="hero-section">
-        <div class="hero-content">
-            <h1 class="hero-title">NEXUS</h1>
-            
-            
-<div class="site-gpu-background" aria-hidden="true"><div class="hero-gpu" aria-label="Animated GPU-inspired cooling system">
-  <div class="gpu-aura"></div>
-  <div class="gpu-card">
-    <div class="gpu-brand">NEXUS <span>5090</span></div>
-    <div class="gpu-edge gpu-edge-a"></div>
-    <div class="gpu-edge gpu-edge-b"></div>
-    <div class="fan fan-one">
-      <div class="fan-ring"></div>
-      <div class="fan-blades"></div>
-      <div class="fan-hub"><span>N</span></div>
-    </div>
-    <div class="fan fan-two">
-      <div class="fan-ring"></div>
-      <div class="fan-blades"></div>
-      <div class="fan-hub"><span>N</span></div>
-    </div>
-    <div class="fan fan-three">
-      <div class="fan-ring"></div>
-      <div class="fan-blades"></div>
-      <div class="fan-hub"><span>N</span></div>
-    </div>
-    <div class="gpu-reflection"></div>
-  </div>
-  <div class="gpu-shadow"></div>
-</div></div>
-
-        </div>
-        <p class="hero-subtitle"><span>One Platform. Every Game. Every Device.</span><br>Reviews, benchmarks, compatibility, and commerce unified into one living ecosystem.</p>
-            <button id="main-explore-btn" class="hero-btn">Will it run?</button>
-        </div>
-    </section>
-
-    <section class="content-section">
+    <div class="hero-section">
         
-        <div id="ecosystem" class="trust-header" reveal">
-            <h2 class="trust-title">The Unified<br>Ecosystem</h2>
-            <p class="trust-subtitle">Software insight, hardware reality, and purchase intent are no longer scattered on separate islands.</p>
+        <!-- Editable Main Title -->
+        <h1 id="HD" class="main-title">
+            NEXUS
+        </h1>
+
+        <!-- Bold Subtitle -->
+        <h2 class="subtitle-bold">
+            One Platform. Every Game. Every Device.
+        </h2>
+
+        <!-- Descriptive Paragraph -->
+        <p class="description-text">
+            Reviews, benchmarks, compatibility, and commerce<br class="hidden md:block">
+            unified into one living ecosystem.
+        </p>
+
+        <div class="search-container">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input type="text" class="search-bar" aria-label="Search" />
         </div>
 
-        <div class="cards-grid" reveal">
-            <!-- Card 01 -->
-            <div class="feature-card reveal">
-                <div class="card-number">01</div>
-                <h3 class="card-title">Cross-Platform<br>Engine</h3>
-                <p class="card-desc">Every game review normalized in real time. We ingest expert critiques and user reviews to deliver one comparable score using AI sentiment weighting.</p>
-            </div>
-            
-            <!-- Card 02 -->
-            <div class="feature-card reveal">
-                <div class="card-number">02</div>
-                <h3 class="card-title">Compatibility<br>Matrix</h3>
-                <p class="card-desc">Stop guessing. We match your specific hardware profile directly to game requirements to guarantee stable FPS and thermal thresholds.</p>
-            </div>
-
-            <!-- Card 03 -->
-            <div class="feature-card reveal">
-                <div class="card-number">03</div>
-                <h3 class="card-title">Hardware<br>Deep Dive</h3>
-                <p class="card-desc">Uncover sustained frame rates, thermal throttling limits, and battery drain under load for PC, console, and mobile chipsets.</p>
-            </div>
-
-            <!-- Card 04 -->
-            <div class="feature-card reveal">
-                <div class="card-number">04</div>
-                <h3 class="card-title">Community<br>Benchmarks</h3>
-                <p class="card-desc">Real gamers turn data into a moat. Explore thousands of validated player submissions comparing FPS vs. temperature across the globe.</p>
-            </div>
-        </div>
-
-        <div id="gallery" class="image-gallery" reveal">
-            <div class="gallery-img-container">
-                <!-- Using placeholder images that match the lighting vibe -->
-                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop" alt="Gamer analyzing benchmark data on multiple screens" class="gallery-img">
-            </div>
-            <div class="gallery-img-container">
-                <img src="https://images.unsplash.com/photo-1542751110-97427bbecf20?q=80&w=1984&auto=format&fit=crop" alt="Player checking mobile chipset thermal limits" class="gallery-img">
+        <!-- Scrolling Text Bar -->
+        <div class="ticker-container">
+            <div class="ticker-track">
+                <!-- Group 1 -->
+                <div class="ticker-group">
+                    <span class="ticker-text">BETA TESTING IN PROGRESS • EARLY ACCESS AVAILABLE SOON • JOIN THE WAITLIST</span>
+                    <span class="ticker-text">BETA TESTING IN PROGRESS • EARLY ACCESS AVAILABLE SOON • JOIN THE WAITLIST</span>
+                    <span class="ticker-text">BETA TESTING IN PROGRESS • EARLY ACCESS AVAILABLE SOON • JOIN THE WAITLIST</span>
+                </div>
+                <!-- Group 2 (Exact Duplicate for Seamless Loop) -->
+                <div class="ticker-group">
+                    <span class="ticker-text">BETA TESTING IN PROGRESS • EARLY ACCESS AVAILABLE SOON • JOIN THE WAITLIST</span>
+                    <span class="ticker-text">BETA TESTING IN PROGRESS • EARLY ACCESS AVAILABLE SOON • JOIN THE WAITLIST</span>
+                    <span class="ticker-text">BETA TESTING IN PROGRESS • EARLY ACCESS AVAILABLE SOON • JOIN THE WAITLIST</span>
+                </div>
             </div>
         </div>
 
-        <div id="compatibility" class="bottom-section" reveal">
-            <h2 class="bottom-title">Your hardware.<br>Your targets.<br><span>Your games.</span></h2>
-            
-            <div class="bottom-desc-container">
-                <p class="bottom-desc">Input your exact system specs—from an 8-core CPU and 12GB GPU right down to your RAM—and set your performance targets (e.g., 1440p at 90+ FPS).</p>
-                <p class="bottom-desc">The Nexus matrix instantly filters playable games tailored specifically for your setup, backed by real community benchmark data and deep hardware insights.</p>
-            </div>
-        </div>
-
-        <div id="games" class="mt-32 max-w-[1400px] mx-auto" reveal">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-light text-white mb-2">Verified <span class="text-[#00f0ff] font-semibold">Playable</span></h2>
-                    <p class="text-[#94a3b8] text-sm md:text-base">Live performance metrics based on your current hardware profile.</p>
-                </div>
-                <button class="px-6 py-2 rounded-full border border-[#00f0ff]/30 text-[#00f0ff] hover:bg-[#00f0ff]/10 transition-colors text-sm uppercase tracking-wider font-semibold">
-                    View Library
-                </button>
-            </div>
-
-            <!-- Games Grid -->
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
-                
-                <!-- Game Card 1 -->
-                <div class="group relative rounded-2xl overflow-hidden bg-[var(--tw-colors-brand-card)] border border-white/5 cursor-pointer transition-all duration-300 hover:border-[#00f0ff]/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.15)] hover:-translate-y-2">
-                    <div class="aspect-[3/4] relative overflow-hidden bg-[#080b14]">
-                        <img src="https://images.unsplash.com/photo-1605901309584-818e25960b8f?q=80&w=800&auto=format&fit=crop" alt="Neon City Overdrive cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#080b14] via-[#080b14]/40 to-transparent"></div>
-                    </div>
-                    <div class="absolute bottom-0 left-0 w-full p-4 md:p-5">
-                        <h4 class="font-semibold text-white text-base md:text-lg truncate mb-1">Neon City Overdrive</h4>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-[#00ff66] shadow-[0_0_8px_#00ff66] animate-pulse"></span>
-                                <span class="text-xs font-bold text-[#00ff66]">144 FPS</span>
-                            </div>
-                            <span class="text-[10px] md:text-xs text-[#94a3b8] font-mono">4K / Ultra</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Game Card 2 -->
-                <div class="group relative rounded-2xl overflow-hidden bg-[var(--tw-colors-brand-card)] border border-white/5 cursor-pointer transition-all duration-300 hover:border-[#00f0ff]/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.15)] hover:-translate-y-2">
-                    <div class="aspect-[3/4] relative overflow-hidden bg-[#080b14]">
-                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop" alt="Eldritch Realms cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#080b14] via-[#080b14]/40 to-transparent"></div>
-                    </div>
-                    <div class="absolute bottom-0 left-0 w-full p-4 md:p-5">
-                        <h4 class="font-semibold text-white text-base md:text-lg truncate mb-1">Eldritch Realms</h4>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-[#00ff66] shadow-[0_0_8px_#00ff66] animate-pulse"></span>
-                                <span class="text-xs font-bold text-[#00ff66]">60 FPS</span>
-                            </div>
-                            <span class="text-[10px] md:text-xs text-[#94a3b8] font-mono">1440p / High</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Game Card 3 -->
-                <div class="group relative rounded-2xl overflow-hidden bg-[var(--tw-colors-brand-card)] border border-white/5 cursor-pointer transition-all duration-300 hover:border-[#00f0ff]/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.15)] hover:-translate-y-2">
-                    <div class="aspect-[3/4] relative overflow-hidden bg-[#080b14]">
-                        <img src="https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=800&auto=format&fit=crop" alt="Stellar Frontiers cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#080b14] via-[#080b14]/40 to-transparent"></div>
-                    </div>
-                    <div class="absolute bottom-0 left-0 w-full p-4 md:p-5">
-                        <h4 class="font-semibold text-white text-base md:text-lg truncate mb-1">Stellar Frontiers</h4>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-[#00ff66] shadow-[0_0_8px_#00ff66] animate-pulse"></span>
-                                <span class="text-xs font-bold text-[#00ff66]">120 FPS</span>
-                            </div>
-                            <span class="text-[10px] md:text-xs text-[#94a3b8] font-mono">1440p / Ultra</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Game Card 4 (Warning State) -->
-                <div class="group relative rounded-2xl overflow-hidden bg-[var(--tw-colors-brand-card)] border border-white/5 cursor-pointer transition-all duration-300 hover:border-[#ff9d00]/50 hover:shadow-[0_0_30px_rgba(255,157,0,0.15)] hover:-translate-y-2">
-                    <div class="aspect-[3/4] relative overflow-hidden bg-[#080b14]">
-                        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800&auto=format&fit=crop" alt="Apex Velocity cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 grayscale group-hover:grayscale-0">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#080b14] via-[#080b14]/50 to-transparent"></div>
-                    </div>
-                    <div class="absolute bottom-0 left-0 w-full p-4 md:p-5">
-                        <h4 class="font-semibold text-white text-base md:text-lg truncate mb-1">Apex Velocity</h4>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-[#ff9d00] shadow-[0_0_8px_#ff9d00] animate-pulse"></span>
-                                <span class="text-xs font-bold text-[#ff9d00]">45 FPS</span>
-                            </div>
-                            <span class="text-[10px] md:text-xs text-[#94a3b8] font-mono">4K / Max</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Game Card 5 -->
-                <div class="group relative rounded-2xl overflow-hidden bg-[var(--tw-colors-brand-card)] border border-white/5 cursor-pointer transition-all duration-300 hover:border-[#00f0ff]/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.15)] hover:-translate-y-2 hidden md:block">
-                    <div class="aspect-[3/4] relative overflow-hidden bg-[#080b14]">
-                        <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop" alt="Operation: Zero cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#080b14] via-[#080b14]/40 to-transparent"></div>
-                    </div>
-                    <div class="absolute bottom-0 left-0 w-full p-4 md:p-5">
-                        <h4 class="font-semibold text-white text-base md:text-lg truncate mb-1">Operation: Zero</h4>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-[#00ff66] shadow-[0_0_8px_#00ff66] animate-pulse"></span>
-                                <span class="text-xs font-bold text-[#00ff66]">240 FPS</span>
-                            </div>
-                            <span class="text-[10px] md:text-xs text-[#94a3b8] font-mono">1080p / Low</span>
-                        </div>
-                    </div>
-                </div>
-
-<comment-tag id="1">            </div>
-        </div></comment-tag id="1" text="            </div>
-
-            <!-- View Full Library Button -->
-            <div class='mt-12 flex justify-center w-full'>
-                <button class='px-8 py-3 bg-[var(--tw-colors-brand-card)] border border-white/5 rounded-full text-white font-semibold hover:border-[#00f0ff]/50 hover:text-[#00f0ff] transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,240,255,0.15)] flex items-center gap-2 group'>
-                    View Full Library
-                    <svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='group-hover:translate-x-1 transition-transform'><line x1='5' y1='12' x2='19' y2='12'></line><polyline points='12 5 19 12 12 19'></polyline></svg>
-                </button>
-            </div>
-        </div>" type="suggestion">
-
-    </section>
-
-    <!-- Updated morphing navigation structure -->
-    <div id="floating-nav" class="floating-nav">
-        <!-- The interactive toggle button -->
-        <div id="nav-toggle" class="nav-toggle">
-            <!-- Hamburger Icon (Shows when collapsed) -->
-            <svg class="icon-hamburger" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
-            <!-- Close 'X' Icon (Shows when expanded) -->
-            <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </div>
-        
-        <!-- The actual text links -->
-        <div class="nav-links-wrapper">
-            <span class="nav-label">Explore Nexus:</span>
-            <a href="#home" class="nav-link">Home</a>
-            <a href="#ecosystem" class="nav-link">Ecosystem</a>
-            <a href="#gallery" class="nav-link">Data</a>
-            <a href="#compatibility" class="nav-link">Compatibility</a>
-            <a href="#games" class="nav-link">Games</a>
-        </div>
     </div>
-
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const exploreBtn = document.getElementById('main-explore-btn');
-        const floatingNav = document.getElementById('floating-nav');
-        const navToggle = document.getElementById('nav-toggle');
-        const navLinks = document.querySelectorAll('.nav-link');
-        const ecosystemSection = document.getElementById('ecosystem');
-
-        // Morphing navigation.
-        exploreBtn?.addEventListener('click', () => {
-          exploreBtn.classList.add('hidden-btn');
-          floatingNav.classList.remove('collapsed');
-          floatingNav.classList.add('expanded');
-        });
-        navToggle?.addEventListener('click', () => {
-          floatingNav.classList.toggle('expanded');
-          floatingNav.classList.toggle('collapsed');
-        });
-        navLinks.forEach(link => link.addEventListener('click', () => {
-          floatingNav.classList.remove('expanded');
-          floatingNav.classList.add('collapsed');
-        }));
-
-        // Smooth reveal as sections enter the viewport.
-        const revealObserver = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-              revealObserver.unobserve(entry.target);
-            }
-          });
-        }, {threshold:.14, rootMargin:'0px 0px -50px'});
-        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-        // Auto-open navigation once the ecosystem becomes relevant.
-        const sectionObserver = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              floatingNav.classList.remove('collapsed');
-              floatingNav.classList.add('expanded');
-              exploreBtn?.classList.add('hidden-btn');
-            }
-          });
-        }, {threshold:.45});
-        if (ecosystemSection) sectionObserver.observe(ecosystemSection);
-
-        // Subtle pointer parallax on the GPU assembly.
-        const gpu = document.querySelector('.gpu-card');
-        if (gpu && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          let targetX=0,targetY=0,currentX=0,currentY=0;
-          window.addEventListener('pointermove', e => {
-            targetX = (e.clientX / innerWidth - .5) * 7;
-            targetY = (e.clientY / innerHeight - .5) * -5;
-          }, {passive:true});
-          const tick = () => {
-            currentX += (targetX-currentX)*.045;
-            currentY += (targetY-currentY)*.045;
-            gpu.style.setProperty('--px', `${currentX}deg`);
-            gpu.style.setProperty('--py', `${currentY}deg`);
-            requestAnimationFrame(tick);
-          };
-          tick();
-        }
-
-        // Gentle 3D tilt on feature cards.
-        document.querySelectorAll('.feature-card').forEach(card => {
-          card.addEventListener('pointermove', e => {
-            if (innerWidth < 900) return;
-            const r = card.getBoundingClientRect();
-            const x = (e.clientX-r.left)/r.width-.5;
-            const y = (e.clientY-r.top)/r.height-.5;
-            card.style.transform = `translateY(-10px) rotateX(${(-y*4).toFixed(2)}deg) rotateY(${(x*4).toFixed(2)}deg)`;
-          });
-          card.addEventListener('pointerleave', () => card.style.transform = '');
-        });
-      });
-    </script>
 </body>
 </html>
